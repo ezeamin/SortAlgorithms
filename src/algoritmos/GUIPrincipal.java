@@ -6,12 +6,6 @@
 package algoritmos;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,39 +19,37 @@ public class GUIPrincipal extends javax.swing.JFrame {
      */
     private static int n;
     private int v[];
+    String datos[][];
     
     
     public GUIPrincipal(int _n, int _v[]) {
         initComponents();
         FlatLightLaf.setup();
         setLocationRelativeTo(null);
+        txtProcesando.setVisible(false);
         
         n=_n;
         v=new int[n];
         
-        for(int i=0;i<n;i++){
-            v[i]=_v[i];
-        }
+        datos=new String[5][7]; //0=nombre, 1=tiempo, 2=comparaciones, 3=op maximas, 4=seleccionado(1 o 0)
+        datos[0][0]="Bubble";
+        datos[0][1]="Insertion";
+        datos[0][2]="Binary";
+        datos[0][3]="Selection";
+        datos[0][4]="Shell";
+        datos[0][5]="Merge";
+        datos[0][6]="Quick";
         
-        imprimirVector();
+        System.arraycopy(_v, 0, v, 0, n);
+        
+        new Operaciones().imprimirVector(v,n,txtVector);
         txtCantidad.setText(String.valueOf(n));
-        //setEnabled(false);
     }
     
-    private void imprimirVector(){
-        String vector="";
 
-        vector+="V[";
-        for(int i=0;i<n;i++){
-            vector+=v[i];
-            if(i!=n-1) vector+=",";
-        }
-        vector+="]";
-        
-        txtVector.setText(vector);
-    }
     
-    private static void leerDatos(String archivo) throws FileNotFoundException{
+    
+    /*private static void leerDatos(String archivo) throws FileNotFoundException{
         try{
             FileInputStream file = new FileInputStream(archivo);
             ObjectInputStream inputFile = new ObjectInputStream(file);
@@ -69,7 +61,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         catch(IOException e){
             JOptionPane.showMessageDialog(null,e.getMessage());
         }
-    }
+    }*/
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -96,7 +88,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
         btnSelection = new javax.swing.JCheckBox();
         btnShell = new javax.swing.JCheckBox();
         btnMerge = new javax.swing.JCheckBox();
-        jButton2 = new javax.swing.JButton();
+        btnAnalizar = new javax.swing.JButton();
+        txtProcesando = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -169,6 +162,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         btnBubble.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         btnBubble.setText("Bubble Sort");
+        btnBubble.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBubbleActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnBubble, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, -1, -1));
 
         btnInsertion.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -216,9 +214,20 @@ public class GUIPrincipal extends javax.swing.JFrame {
         });
         getContentPane().add(btnMerge, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, -1, -1));
 
-        jButton2.setText("Analizar");
-        jButton2.setFocusPainted(false);
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 200, 130, 120));
+        btnAnalizar.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btnAnalizar.setText("Analizar");
+        btnAnalizar.setFocusPainted(false);
+        btnAnalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnalizarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAnalizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 200, 150, 120));
+
+        txtProcesando.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        txtProcesando.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtProcesando.setText("Procesando...");
+        getContentPane().add(txtProcesando, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 340, 150, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -232,33 +241,69 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void btnQuickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuickActionPerformed
         // TODO add your handling code here:
+        datos[4][6]="1";
+        if (!btnQuick.isSelected()) datos[4][6]="0";
     }//GEN-LAST:event_btnQuickActionPerformed
 
     private void btnInsertionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertionActionPerformed
         // TODO add your handling code here:
+        datos[4][1]="1";
+        if (!btnInsertion.isSelected()) datos[4][1]="0";
     }//GEN-LAST:event_btnInsertionActionPerformed
 
     private void btnBinaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBinaryActionPerformed
         // TODO add your handling code here:
+        datos[4][2]="1";
+        if (!btnBinary.isSelected()) datos[4][2]="0";
     }//GEN-LAST:event_btnBinaryActionPerformed
 
     private void btnSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectionActionPerformed
         // TODO add your handling code here:
+        datos[4][3]="1";
+        if (!btnSelection.isSelected()) datos[4][3]="0";
     }//GEN-LAST:event_btnSelectionActionPerformed
 
     private void btnShellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShellActionPerformed
         // TODO add your handling code here:
+        datos[4][4]="1";
+        if (!btnShell.isSelected()) datos[4][4]="0";
     }//GEN-LAST:event_btnShellActionPerformed
 
     private void btnMergeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMergeActionPerformed
         // TODO add your handling code here:
+        datos[4][5]="1";
+        if (!btnMerge.isSelected()) datos[4][5]="0";
     }//GEN-LAST:event_btnMergeActionPerformed
+
+    private void btnBubbleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBubbleActionPerformed
+        // TODO add your handling code here:
+        datos[4][0]="1";
+        if (!btnBubble.isSelected()) datos[4][0]="0";
+    }//GEN-LAST:event_btnBubbleActionPerformed
+
+    private void btnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarActionPerformed
+        // TODO add your handling code here:
+        boolean error=true;
+        for(int i=0;i<7;i++){
+            if("1".equals(datos[4][i])) error=false;
+        }
+        
+        if(error){
+            JOptionPane.showMessageDialog(null,"Seleccione al menos un algoritmo");
+            return;
+        }
+        
+        txtProcesando.setVisible(true);
+        new GUIAnalisis(v,n,txtProcesando,datos).setVisible(true); //pasar booleanos
+        //txtProcesando.setVisible(false); //deberia eliminarse despues
+    }//GEN-LAST:event_btnAnalizarActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnalizar;
     private javax.swing.JCheckBox btnBinary;
     private javax.swing.JCheckBox btnBubble;
     private javax.swing.JButton btnEditar;
@@ -267,7 +312,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JCheckBox btnQuick;
     private javax.swing.JCheckBox btnSelection;
     private javax.swing.JCheckBox btnShell;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -275,6 +319,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea txtCantidad;
+    private javax.swing.JLabel txtProcesando;
     private javax.swing.JTextArea txtVector;
     // End of variables declaration//GEN-END:variables
 }

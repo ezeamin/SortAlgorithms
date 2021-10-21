@@ -27,8 +27,6 @@ public class GUICantidad extends javax.swing.JFrame {
      */
     private int n;
     
-    private Algoritmos main;
-    
     public GUICantidad() {
         FlatLightLaf.setup();
         initComponents();

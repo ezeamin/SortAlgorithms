@@ -5,6 +5,7 @@
  */
 package algoritmos;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.event.ActionEvent;
 import java.util.Random;
 import javax.swing.AbstractAction;
@@ -20,11 +21,12 @@ public class GUIAleatorio extends javax.swing.JFrame {
     /**
      * Creates new form GUIAleatorio
      */
-    private int n;
-    private int v[];
+    private final int n;
+    private final int v[];
     
     public GUIAleatorio(int _n) {
         initComponents();
+        FlatLightLaf.setup();
         setLocationRelativeTo(null);
         
         n=_n;
@@ -46,7 +48,7 @@ public class GUIAleatorio extends javax.swing.JFrame {
                 btnContinuarActionPerformed(e);
             }
         };
-        txtPiso.addActionListener(actionTecho);
+        txtTecho.addActionListener(actionTecho);
     }
 
     /**
@@ -155,7 +157,8 @@ public class GUIAleatorio extends javax.swing.JFrame {
             }
             
             aleatorio(pisoInt,techoInt);
-            new GUIPrincipal(n,v).setVisible(true);
+
+            new GUIOrden(n,v).setVisible(true);
             dispose();
         }
         catch(Exception e){
