@@ -6,6 +6,12 @@
 package algoritmos;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,11 +23,38 @@ public class GUIGenerar extends javax.swing.JFrame {
      * Creates new form GUIGenerar
      */
     private int opcion;
+    private int n;
     
-    public GUIGenerar() {
+    public GUIGenerar(int _n) {
         FlatLightLaf.setup();
         initComponents();
+        setLocationRelativeTo(null);
         opcion=-1;
+        n=_n;
+        
+        KeyListener action = new KeyListener(){ //para detectar el enter
+            /*@Override
+            public void actionPerformed(ActionEvent e)
+            {
+                btnContinuarActionPerformed(e);
+            }*/
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        };
+        this.addKeyListener(action);
     }
 
     /**
@@ -105,6 +138,12 @@ public class GUIGenerar extends javax.swing.JFrame {
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
         // TODO add your handling code here:
+        if(opcion==1) new GUIAleatorio(n).setVisible(true);
+        //else if (opcion==0) new GUIManual(n).setVisible(true);
+        else{
+            JOptionPane.showMessageDialog(null,"Seleccione una opcion");
+            return;
+        }
         dispose();
         
     }//GEN-LAST:event_btnContinuarActionPerformed

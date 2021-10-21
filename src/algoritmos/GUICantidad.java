@@ -6,9 +6,14 @@
 package algoritmos;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,10 +32,20 @@ public class GUICantidad extends javax.swing.JFrame {
     public GUICantidad() {
         FlatLightLaf.setup();
         initComponents();
+        setLocationRelativeTo(null);
         n=0;
+
+        Action action = new AbstractAction(){ //para detectar el enter
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                btnEnviarActionPerformed(e);
+            }
+        };
+        txtCantidad.addActionListener(action);
     }
     
-    private void guardarDatos() throws FileNotFoundException{
+    /*private void guardarDatos() throws FileNotFoundException{
         try{
             FileOutputStream file = new FileOutputStream("cantidad.dat");
             ObjectOutputStream outputFile = new ObjectOutputStream(file);
@@ -42,6 +57,18 @@ public class GUICantidad extends javax.swing.JFrame {
         catch(IOException e){
             JOptionPane.showMessageDialog(null,e.getMessage());
         }
+    }*/
+    
+    public static void main(String args[]) {
+       
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new GUICantidad().setVisible(true);
+            }
+        });
+        
+//        
     }
     
     
@@ -95,7 +122,7 @@ public class GUICantidad extends javax.swing.JFrame {
             .addGap(0, 20, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 280, 20, 20));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 280, 20, 20));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -109,16 +136,27 @@ public class GUICantidad extends javax.swing.JFrame {
         
         try{
             n=Integer.parseInt(txtCantidad.getText());
+            if(n<=0){
+                JOptionPane.showMessageDialog(null,"Ingrese un valor valido");
+                return;
+            }
+            if(n>100000){
+                JOptionPane.showMessageDialog(null,"Ingrese un valor menor que 100.000");
+                return;
+            }
         }
-        catch(Exception e){}
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Ingrese un valor valido");
+            return;
+        }
         
-        try {
+        /*try {
             guardarDatos();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GUICantidad.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         
-        new GUIGenerar().setVisible(true);
+        new GUIGenerar(n).setVisible(true);
         dispose();
     }//GEN-LAST:event_btnEnviarActionPerformed
 

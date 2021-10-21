@@ -27,14 +27,34 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private int v[];
     
     
-    public GUIPrincipal() {
+    public GUIPrincipal(int _n, int _v[]) {
         initComponents();
         FlatLightLaf.setup();
+        setLocationRelativeTo(null);
         
-        GUICantidad GUIcant = new GUICantidad();
-        GUIcant.setVisible(true);
-        GUIcant.setAlwaysOnTop(true);
+        n=_n;
+        v=new int[n];
+        
+        for(int i=0;i<n;i++){
+            v[i]=_v[i];
+        }
+        
+        imprimirVector();
+        txtCantidad.setText(String.valueOf(n));
         //setEnabled(false);
+    }
+    
+    private void imprimirVector(){
+        String vector="";
+
+        vector+="V[";
+        for(int i=0;i<n;i++){
+            vector+=v[i];
+            if(i!=n-1) vector+=",";
+        }
+        vector+="]";
+        
+        txtVector.setText(vector);
     }
     
     private static void leerDatos(String archivo) throws FileNotFoundException{
@@ -63,7 +83,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtVector = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtCantidad = new javax.swing.JTextArea();
@@ -89,15 +109,14 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jLabel2.setText("Vector:");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextArea1.setRows(5);
-        jTextArea1.setFocusable(false);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtVector.setEditable(false);
+        txtVector.setColumns(18);
+        txtVector.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        txtVector.setRows(1);
+        txtVector.setFocusable(false);
+        jScrollPane1.setViewportView(txtVector);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 410, 50));
 
@@ -110,8 +129,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         txtCantidad.setEditable(false);
         txtCantidad.setColumns(20);
-        txtCantidad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtCantidad.setRows(5);
+        txtCantidad.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        txtCantidad.setRows(1);
         txtCantidad.setFocusable(false);
         jScrollPane2.setViewportView(txtCantidad);
 
@@ -206,6 +225,9 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
+        new GUICantidad().setVisible(true);
+        //new GUIEditar(n,v).setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnQuickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuickActionPerformed
@@ -235,24 +257,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
-    public static void main(String args[]) {
-       
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUIPrincipal().setVisible(true);
-            }
-        });
-        try {
-            leerDatos("cantidad.dat");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(GUIPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        System.out.println("N= "+n);
-//        txtCantidad.setText(String.valueOf(n));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox btnBinary;
@@ -270,7 +274,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea txtCantidad;
+    private javax.swing.JTextArea txtVector;
     // End of variables declaration//GEN-END:variables
 }
