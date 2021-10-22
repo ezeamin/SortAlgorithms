@@ -174,7 +174,7 @@ public class GUIAleatorio extends javax.swing.JFrame {
         Random rnd = new Random();
         
         for(int i=0;i<n;i++){
-            v[i]=rnd.nextInt(techo-piso)+piso;
+            v[i]=rnd.nextInt(techo-piso+1)+piso;
         }
     }
 

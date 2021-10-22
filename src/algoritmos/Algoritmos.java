@@ -93,7 +93,7 @@ public class Algoritmos {
         double fin = System.currentTimeMillis();
         
         datos[1][0]=Double.toString((double) ((fin - inicio)/1000));
-        datos[2][0]=Double.toString(contador);
+        datos[2][0]=new Operaciones().recorte(contador);
 
         return temp;
     }
@@ -123,7 +123,7 @@ public class Algoritmos {
         double fin = System.currentTimeMillis();
         
         datos[1][1]=Double.toString((double) ((fin - inicio)/1000));
-        datos[2][1]=Double.toString(contador);
+        datos[2][1]=new Operaciones().recorte(contador);
         
         return temp;
     }
@@ -177,7 +177,7 @@ public class Algoritmos {
         double fin = System.currentTimeMillis();
         
         datos[1][2]=Double.toString((double) ((fin - inicio)/1000));
-        datos[2][2]=Double.toString(contador);
+        datos[2][2]=new Operaciones().recorte(contador);
         return temp;
     }
     
@@ -204,7 +204,7 @@ public class Algoritmos {
         double fin = System.currentTimeMillis();
         
         datos[1][3]=Double.toString((double) ((fin - inicio)/1000));
-        datos[2][3]=Double.toString(contador);
+        datos[2][3]=new Operaciones().recorte(contador);
         
         return temp;
     }
@@ -242,7 +242,7 @@ public class Algoritmos {
         double fin = System.currentTimeMillis();
         
         datos[1][4]=Double.toString((double) ((fin - inicio)/1000));
-        datos[2][4]=Double.toString(contador);
+        datos[2][4]=new Operaciones().recorte(contador);
         
         return temp;
     }
@@ -325,7 +325,7 @@ public class Algoritmos {
         double fin = System.currentTimeMillis();
         
         datos[1][5]=Double.toString((double) ((fin - inicio)/1000));
-        datos[2][5]=Double.toString(contador);
+        datos[2][5]=new Operaciones().recorte(contador);
         return temp;
     }
 
@@ -399,7 +399,7 @@ public class Algoritmos {
         double fin = System.currentTimeMillis();
         
         datos[1][6]=Double.toString((double) ((fin - inicio)/1000));
-        datos[2][6]=Double.toString(contador);
+        datos[2][6]=new Operaciones().recorte(contador);
         return temp;
     }
 }

@@ -6,7 +6,19 @@
 package algoritmos;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import static java.lang.Math.log;
+import static java.lang.Math.pow;
+import java.text.DecimalFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -33,19 +45,13 @@ public class GUIAnalisis extends javax.swing.JFrame {
         v=new int[n];
         txtProcesando=_txtProcesando;
         
+        txtProcesando.setVisible(true);
+        
         //array de datos
         datos=new String[5][7];
         for(int i=0;i<5;i++){
             System.arraycopy(_datos[i], 0, datos[i], 0, 7);
         }
-        
-        /*datos[0][0]="Bubble";
-        datos[0][1]="Insertion";
-        datos[0][2]="Binary";
-        datos[0][3]="Selection";
-        datos[0][4]="Shell";
-        datos[0][5]="Merge";
-        datos[0][6]="Quick";*/
         
         System.arraycopy(_v,0,v,0,n);
         
@@ -54,13 +60,42 @@ public class GUIAnalisis extends javax.swing.JFrame {
         tabla.addColumn("Metodo");
         tabla.addColumn("Tiempo [s]");
         tabla.addColumn("Comparaciones");
-        tabla.addColumn("Tiempo maximo teórico [s]");
+        tabla.addColumn("Op. máximas teóricas");
         table.setModel(tabla);
         
         datos=new Algoritmos(v,n,datos).comparar();
         conseguirTeoricos();
         cargarDatosTabla();
+        detectarMejor();
+    }
+    
+    private void detectarMejor(){
+        double prom[]=new double[7];
+        for(int i=0;i<7;i++){
+            if("1".equals(datos[4][i])){
+                prom[i]=Double.parseDouble(datos[1][i])+Double.parseDouble(datos[2][i]);
+                System.out.println(datos[0][i]+"= "+prom[i]);
+            }
+        }
         
+        double max=prom[0];
+        int posMax=0;
+        double min=prom[0];
+        int posMin=0;
+        for(int i=1;i<7;i++){
+            if(prom[i]>max){
+                max=prom[i];
+                posMax=i;
+                continue;
+            }
+            if(prom[i]<min){
+                min=prom[i];
+                posMin=i;
+            }
+        }
+        
+        txtMejorAlgoritmo.setText(datos[0][posMin]);
+        txtPeorAlgoritmo.setText(datos[0][posMax]);
     }
     
     private void cargarDatosTabla(){
@@ -77,7 +112,43 @@ public class GUIAnalisis extends javax.swing.JFrame {
     }
     
     private void conseguirTeoricos(){
-        
+        if("1".equals(datos[4][0])) datos[3][0]=new Operaciones().recorte(pow(n,2));
+        if("1".equals(datos[4][1])) datos[3][1]=new Operaciones().recorte(pow(n,2)/4);
+        if("1".equals(datos[4][2])) datos[3][2]=new Operaciones().recorte(n*(n-1)/2);
+        if("1".equals(datos[4][3])) datos[3][3]=new Operaciones().recorte(pow(n,2));
+        if("1".equals(datos[4][4])) datos[3][4]=new Operaciones().recorte(n*pow(log(n),2));
+        if("1".equals(datos[4][5])) datos[3][5]=new Operaciones().recorte(n*log(n));
+        if("1".equals(datos[4][6])) {
+            datos[3][6]=new Operaciones().recorte(pow(n,2));
+            datos[3][6]+=" | ";
+            datos[3][6]+=new Operaciones().recorte(n*log(n));
+        }
+    }
+    
+    private void guardarDatos() throws FileNotFoundException, IOException{
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("datos.txt"));
+            boolean newLine=true;
+            
+            for(int i=0;i<7;i++){
+                for(int j=0;j<4;j++){
+                    if(j==0 && datos[1][i]==null){
+                        newLine=false;
+                        break;
+                    }
+                    if(j==3 && i==6) bw.write("("+datos[j][i] + ((j==3) ? "" : " | ")+")");
+                    else bw.write(datos[j][i] + ((j==3) ? "" : " | "));
+                }
+                if(newLine) bw.newLine();
+                else newLine=true;
+                
+            }
+            bw.flush();
+            JOptionPane.showMessageDialog(null,"Guardado exitosamente");
+        }
+        catch (IOException e) {
+            JOptionPane.showMessageDialog(null,e.getMessage());
+        }
     }
 
     /**
@@ -94,6 +165,10 @@ public class GUIAnalisis extends javax.swing.JFrame {
         table = new javax.swing.JTable();
         btnContinuar = new javax.swing.JButton();
         btnExportar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtMejorAlgoritmo = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtPeorAlgoritmo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -157,25 +232,46 @@ public class GUIAnalisis extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel2.setText("El algoritmo de mejor rendimiento (Recursos-Tiempo) fue:");
+
+        txtMejorAlgoritmo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtMejorAlgoritmo.setText("Algoritmo");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setText("El algoritmo de peor rendimiento (Recursos-Tiempo) fue:");
+
+        txtPeorAlgoritmo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtPeorAlgoritmo.setText("Algoritmo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnExportar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnContinuar))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(36, 36, 36)
-                            .addComponent(jLabel1))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(52, 52, 52)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(46, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtMejorAlgoritmo))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtPeorAlgoritmo)))))
+                .addContainerGap(43, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnExportar)
+                .addGap(18, 18, 18)
+                .addComponent(btnContinuar)
+                .addGap(43, 43, 43))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,11 +280,19 @@ public class GUIAnalisis extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtMejorAlgoritmo)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnContinuar)
-                    .addComponent(btnExportar))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(jLabel3)
+                    .addComponent(txtPeorAlgoritmo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExportar)
+                    .addComponent(btnContinuar))
+                .addGap(19, 19, 19))
         );
 
         pack();
@@ -201,7 +305,12 @@ public class GUIAnalisis extends javax.swing.JFrame {
     }//GEN-LAST:event_btnContinuarActionPerformed
 
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            guardarDatos();
+        } catch (IOException ex) {
+            Logger.getLogger(GUIAnalisis.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnExportarActionPerformed
 
     /**
@@ -212,7 +321,11 @@ public class GUIAnalisis extends javax.swing.JFrame {
     private javax.swing.JButton btnContinuar;
     private javax.swing.JButton btnExportar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
+    private javax.swing.JLabel txtMejorAlgoritmo;
+    private javax.swing.JLabel txtPeorAlgoritmo;
     // End of variables declaration//GEN-END:variables
 }

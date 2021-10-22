@@ -72,4 +72,18 @@ public class Operaciones {
         
         return v;
     }
+    
+    public String recorte(double num){
+        if(num>1000000) return Double.toString(num);
+        String tiempo=Double.toString(num);
+        int i;
+        for(i=0;i<tiempo.length();i++){
+            if(tiempo.charAt(i)=='.'){
+                break;
+            }
+        }
+        //System.out.println(""+tiempo);
+        return tiempo.substring(0,i);
+        
+    }
 }

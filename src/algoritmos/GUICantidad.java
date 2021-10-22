@@ -7,11 +7,6 @@ package algoritmos;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
@@ -42,21 +37,7 @@ public class GUICantidad extends javax.swing.JFrame {
         };
         txtCantidad.addActionListener(action);
     }
-    
-    /*private void guardarDatos() throws FileNotFoundException{
-        try{
-            FileOutputStream file = new FileOutputStream("cantidad.dat");
-            ObjectOutputStream outputFile = new ObjectOutputStream(file);
-            
-            outputFile.writeInt(n);
-            
-            outputFile.close();
-        }
-        catch(IOException e){
-            JOptionPane.showMessageDialog(null,e.getMessage());
-        }
-    }*/
-    
+
     public static void main(String args[]) {
        
         /* Create and display the form */
@@ -68,9 +49,7 @@ public class GUICantidad extends javax.swing.JFrame {
         
 //        
     }
-    
-    
-
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -147,14 +126,9 @@ public class GUICantidad extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Ingrese un valor valido");
             return;
         }
-        
-        /*try {
-            guardarDatos();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(GUICantidad.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        
-        new GUIGenerar(n).setVisible(true);
+
+        if(n>15) new GUIAleatorio(n).setVisible(true);
+        else new GUIGenerar(n).setVisible(true);
         dispose();
     }//GEN-LAST:event_btnEnviarActionPerformed
 

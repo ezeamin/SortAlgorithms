@@ -293,7 +293,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
             return;
         }
         
-        txtProcesando.setVisible(true);
         new GUIAnalisis(v,n,txtProcesando,datos).setVisible(true); //pasar booleanos
         //txtProcesando.setVisible(false); //deberia eliminarse despues
     }//GEN-LAST:event_btnAnalizarActionPerformed

@@ -24,7 +24,7 @@ public class GUIGenerar extends javax.swing.JFrame {
         FlatLightLaf.setup();
         initComponents();
         setLocationRelativeTo(null);
-        opcion=-1;
+        opcion=0;
         n=_n;
         
     }
@@ -56,6 +56,7 @@ public class GUIGenerar extends javax.swing.JFrame {
 
         buttonGroup1.add(btnManual);
         btnManual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnManual.setSelected(true);
         btnManual.setText("Ingreso manual");
         btnManual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,11 +111,16 @@ public class GUIGenerar extends javax.swing.JFrame {
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
         // TODO add your handling code here:
-        if(opcion==1) new GUIAleatorio(n).setVisible(true);
-        //else if (opcion==0) new GUIManual(n).setVisible(true);
-        else{
-            JOptionPane.showMessageDialog(null,"Seleccione una opcion");
-            return;
+        switch (opcion) {
+            case 1:
+                new GUIAleatorio(n).setVisible(true);
+                break;
+            case 0:
+                new GUIManual(n).setVisible(true);
+                break;
+            /*default:
+                JOptionPane.showMessageDialog(null,"Seleccione una opcion");
+                return;*/
         }
         dispose();
         
