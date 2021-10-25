@@ -124,7 +124,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="btnEditar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Editar vector"/>
+        <Property name="text" type="java.lang.String" value="Cambiar vector"/>
         <Property name="focusPainted" type="boolean" value="false"/>
       </Properties>
       <Events>

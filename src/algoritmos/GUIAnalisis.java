@@ -71,34 +71,29 @@ public class GUIAnalisis extends javax.swing.JFrame {
     }
     
     private void detectarMejor(){
-        double minTiempo=Double.parseDouble(datos[1][0]);
-        for(int i=1;i<7;i++){
-            if(Double.parseDouble(datos[1][i])<minTiempo){
-                minTiempo=Double.parseDouble(datos[1][i]);
-            }
-        }
-        
-        //puntaje
-        if(minTiempo==0) minTiempo=0.001; //para evitar valores nulos
-        double punt[][]=new double[4][7];
+        int punt[][]=new int[4][7];
         for(int i=0;i<7;i++){
             punt[0][i]=i;
-            
-            if(Double.parseDouble(datos[1][i])==0) punt[1][i]=100; //evitar division en 0
-            else punt[1][i]=(minTiempo*100)/Double.parseDouble(datos[1][i]);
         }
         
         //ordenar tiempo
         double tiempo[][]=new double[3][7];
         for(int i=0;i<7;i++){
             tiempo[0][i]=i;
-            tiempo[1][i]=Double.parseDouble(datos[1][i]);
+            try{
+                tiempo[1][i]=Double.parseDouble(datos[1][i]);
+            }
+            catch(Exception e){
+                tiempo[1][i]=Double.NaN;
+            }
+            
         }
         
         double aux1,aux2;
 
         for (int i=0;i<7-1;i++){
             for (int j=0;j<7-i-1;j++){
+                if(Double.isNaN(tiempo[1][j])) continue;
                 if (tiempo[1][j]>tiempo[1][j+1]){
                     // swap arr[j+1] and arr[j]
                     aux1=tiempo[0][j];
@@ -113,15 +108,17 @@ public class GUIAnalisis extends javax.swing.JFrame {
         
         int k=100;
         for(int i=0;i<7;i++){
-            tiempo[2][i]=k;
+            if(!Double.isNaN(tiempo[1][i])) tiempo[2][i]=k;
+            else tiempo[2][i]=Double.NaN;
             
-            if(i!=6 && tiempo[1][i]!=tiempo[1][i+1]) k-=14;
+            if(i!=6 && tiempo[1][i]!=tiempo[1][i+1] && !Double.isNaN(tiempo[1][i])) k-=14;
         }
         
         for(int i=0;i<7;i++){
             for(int j=0;j<7;j++){
                 if(tiempo[0][i]==j){
-                    punt[1][j]=tiempo[2][i];
+                    if(!Double.isNaN(tiempo[1][i])) punt[1][j]=(int)tiempo[2][i];
+                    else punt[1][j]=(int) Float.NaN;
                     break;
                 }
             }
@@ -131,11 +128,18 @@ public class GUIAnalisis extends javax.swing.JFrame {
         double comp[][]=new double[3][7];
         for(int i=0;i<7;i++){
             comp[0][i]=i;
-            comp[1][i]=Double.parseDouble(datos[2][i]);
+            try{
+                comp[1][i]=Double.parseDouble(datos[2][i]);
+            }
+            catch(Exception e){
+                comp[1][i]=Double.NaN;
+            }
+            
         }
 
         for (int i=0;i<7-1;i++){
             for (int j=0;j<7-i-1;j++){
+                if(Double.isNaN(comp[1][j])) continue;
                 if (comp[1][j]>comp[1][j+1]){
                     // swap arr[j+1] and arr[j]
                     aux1=comp[0][j];
@@ -152,14 +156,17 @@ public class GUIAnalisis extends javax.swing.JFrame {
         for(int i=0;i<7;i++){
             comp[2][i]=k;
             
-            if(i!=6 && comp[1][i]!=comp[1][i+1]) k-=14;
+            if(i!=6 && comp[1][i]!=comp[1][i+1] && !Double.isNaN(comp[1][i])) k-=14;
         }
         
         for(int i=0;i<7;i++){
             for(int j=0;j<7;j++){
                 if(comp[0][i]==j){
-                    punt[2][j]=comp[2][i];
-                    punt[3][j]=punt[1][j]+punt[2][j];
+                    if(!Double.isNaN(comp[1][i])) punt[2][j]=(int)comp[2][i];
+                    else punt[2][j]=(int) Float.NaN;
+                    
+                    if(!Double.isNaN(comp[1][i]))punt[3][j]=punt[1][j]+punt[2][j];
+                    else punt[3][j]=(int) Float.NaN;
                     break;
                 }
             }
@@ -175,11 +182,20 @@ public class GUIAnalisis extends javax.swing.JFrame {
         System.out.println("");
         
         //obtener mejor y peor puntaje
-        double maxPuntaje=punt[3][0];
-        posMaxPuntaje=0;
-        double minPuntaje=punt[3][0];
-        posMinPuntaje=0;
-        for(int i=1;i<7;i++){
+        int p=0;
+        while(punt[3][p]==(int)Double.NaN){
+            p++;
+        }
+        
+        double maxPuntaje=punt[3][p];
+        posMaxPuntaje=p;
+        double minPuntaje=punt[3][p];
+        posMinPuntaje=p;
+
+        
+        for(int i=p+1;i<7;i++){
+            if(punt[3][i]==(int)Double.NaN) continue;
+            
             if(punt[3][i]<maxPuntaje){
                 maxPuntaje=punt[3][i];
                 posMaxPuntaje=i;
@@ -200,6 +216,7 @@ public class GUIAnalisis extends javax.swing.JFrame {
         
         for(int i=0;i<7;i++){
             for(int j=0;j<4;j++){
+                //if(j==3) info[j]=String.format("%6.3E",datos[j][i]);
                 info[j]=datos[j][i];
                 //System.out.printf(""+datos[j][i]+",");
             }

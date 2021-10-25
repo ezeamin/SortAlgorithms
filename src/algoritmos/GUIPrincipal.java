@@ -113,7 +113,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, 140, 50));
 
-        btnEditar.setText("Editar vector");
+        btnEditar.setText("Cambiar vector");
         btnEditar.setFocusPainted(false);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
