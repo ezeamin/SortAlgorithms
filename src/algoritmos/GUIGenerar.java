@@ -46,7 +46,7 @@ public class GUIGenerar extends javax.swing.JFrame {
         btnContinuar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setAlwaysOnTop(true);
+        setTitle("Algoritmos de ordenamiento");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

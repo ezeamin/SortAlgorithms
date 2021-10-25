@@ -1,6 +1,10 @@
-Bubble | 0.0 | 11175 | 22500
-Insertion | 0.0 | 5663 | 5625
-Binary | 0.0 | 1591 | 11175
-Selection | 0.0 | 11175 | 22500
-Shell | 0.0 | 1206 | 3765
-Quick | 0.0 | 1128 | (22500 | 751)
+Bubble | 0.003 | 499500 | 1000000
+Insertion | 0.0 | 999 | 250000
+Binary | 0.0 | 15056 | 499500
+Selection | 0.004 | 499500 | 1000000
+Shell | 0.0 | 16012 | 47717
+Merge | 0.001 | 5044 | 6907
+Quick | 0.0 | 103176 | (1000000 | 6907)
+
+Mejor: Selection
+Peor: Insertion

@@ -45,23 +45,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
         new Operaciones().imprimirVector(v,n,txtVector);
         txtCantidad.setText(String.valueOf(n));
     }
-    
-
-    
-    
-    /*private static void leerDatos(String archivo) throws FileNotFoundException{
-        try{
-            FileInputStream file = new FileInputStream(archivo);
-            ObjectInputStream inputFile = new ObjectInputStream(file);
-            
-            //System.out.println(""+inputFile.readInt());
-            n=inputFile.readInt();
-            inputFile.close();
-        }
-        catch(IOException e){
-            JOptionPane.showMessageDialog(null,e.getMessage());
-        }
-    }*/
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -92,6 +75,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         txtProcesando = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Algoritmos de ordenamiento");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -294,7 +278,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
         }
         
         new GUIAnalisis(v,n,txtProcesando,datos).setVisible(true); //pasar booleanos
-        //txtProcesando.setVisible(false); //deberia eliminarse despues
     }//GEN-LAST:event_btnAnalizarActionPerformed
 
     /**

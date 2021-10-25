@@ -14,12 +14,7 @@ import javax.swing.JTextArea;
 public class Operaciones {
     int n;
     int v[];
-    
-    /*Invertir(int _v[],int _n){
-        n=_n;
-        System.arraycopy(_v, 0, v, 0, n);
-    }*/
-    
+
     public void imprimirVector(int _v[],int _n,JTextArea txtVector){
         n=_n;
         v=new int[n];
@@ -73,8 +68,25 @@ public class Operaciones {
         return v;
     }
     
+    /*public double[] invertirDouble(double _v[],int _n){
+        n=_n;
+        double v[]=new double[n];
+        
+        System.arraycopy(_v, 0, v, 0, n);
+        
+        double aux;
+	
+	for(int i=0;i<n/2;i++){
+		aux=v[i];
+		v[i]=v[n-i-1];
+		v[n-i-1]=aux;
+	}
+        
+        return v;
+    }*/
+    
     public String recorte(double num){
-        if(num>1000000) return Double.toString(num);
+        if(num>10000000) return Double.toString(num);
         String tiempo=Double.toString(num);
         int i;
         for(i=0;i<tiempo.length();i++){

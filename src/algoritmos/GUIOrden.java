@@ -6,7 +6,6 @@
 package algoritmos;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -49,7 +48,8 @@ public class GUIOrden extends javax.swing.JFrame {
         btnOrdenadoInv = new javax.swing.JRadioButton();
         btnContinuar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Algoritmos de ordenamiento");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Elija como continuar");
@@ -146,10 +146,6 @@ public class GUIOrden extends javax.swing.JFrame {
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
         // TODO add your handling code here:
-        if(opc==-1){
-            JOptionPane.showMessageDialog(null,"Elija una opcion");
-            return;
-        }
         
         if(opc!=0){
             v=new Algoritmos(v,n).quickSortFunc(v, 0, n-1);

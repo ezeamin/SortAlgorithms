@@ -5,8 +5,6 @@
  */
 package algoritmos;
 
-import java.util.Arrays;
-
 /**
  *
  * @author EZEA2
@@ -14,6 +12,7 @@ import java.util.Arrays;
 public class Algoritmos {
     
     int v[];
+    double vDouble[];
     int ordenado[];
     int n;
     double contador;
@@ -37,6 +36,14 @@ public class Algoritmos {
         ordenado=new int[n];
         datos=new String[5][7];
         System.arraycopy(_v,0,v,0,n);
+    }
+    
+    Algoritmos(double _v[],int _n){
+        n=_n;
+        vDouble=new double[n];
+        ordenado=new int[n];
+        datos=new String[5][7];
+        System.arraycopy(_v,0,vDouble,0,n);
     }
     
     public String[][] comparar(){
@@ -212,6 +219,7 @@ public class Algoritmos {
     public int[] shell(){
         int temp[]=new int[n];
         contador=0;
+        boolean entry=false;
         System.arraycopy(v,0,temp,0,n);
  
         double inicio = System.currentTimeMillis();
@@ -229,10 +237,13 @@ public class Algoritmos {
                 // shift earlier gap-sorted elements up until
                 // the correct location for a[i] is found
                 int j;
+                contador+=2;
                 for (j=i;j>=gap && temp[j-gap]>aux;j-=gap){
                     contador+=2; //2 comparaciones en el for
                     temp[j]=temp[j-gap];
+                    entry=true;
                 }
+                if(entry) contador-=2;
  
                 // put temp (the original a[i]) in its correct
                 // location
