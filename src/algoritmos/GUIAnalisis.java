@@ -8,13 +8,10 @@ package algoritmos;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import static java.lang.Math.log;
 import static java.lang.Math.pow;
-import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -33,14 +30,10 @@ public class GUIAnalisis extends javax.swing.JFrame {
     int v[];
     int n;
     int posMaxPuntaje,posMinPuntaje;
-    JLabel txtProcesando;
     DefaultTableModel tabla;
     String datos[][];
     
-    public GUIAnalisis(int _v[],int _n,JLabel _txtProcesando,String _datos[][]) {
-        txtProcesando=_txtProcesando;
-        txtProcesando.setVisible(true);
-        
+    public GUIAnalisis(int _v[],int _n,String _datos[][]) {
         initComponents();
         FlatLightLaf.setup();
         setLocationRelativeTo(null);
@@ -68,7 +61,23 @@ public class GUIAnalisis extends javax.swing.JFrame {
         conseguirTeoricos();
         cargarDatosTabla();
         detectarMejor();
+        new GUIGrafico(datos).setVisible(true);
     }
+    
+    /*private double maxTiempo(){
+        int p=0;
+        while(datos[1][0]!=null){
+            p++;
+        }
+        double max=Double.parseDouble(datos[1][0]);
+        for(int i=1;i<7;i++){
+            if(Double.parseDouble(datos[1][i])>max){
+                max=Double.parseDouble(datos[1][i]);
+            }
+        }
+        
+        return max;
+    }*/
     
     private void detectarMejor(){
         int punt[][]=new int[4][7];
@@ -420,7 +429,6 @@ public class GUIAnalisis extends javax.swing.JFrame {
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
         // TODO add your handling code here:
-        txtProcesando.setVisible(false);
         dispose();
     }//GEN-LAST:event_btnContinuarActionPerformed
 
