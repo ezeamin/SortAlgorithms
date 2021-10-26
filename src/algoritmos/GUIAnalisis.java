@@ -29,7 +29,7 @@ public class GUIAnalisis extends javax.swing.JFrame {
      */
     int v[];
     int n;
-    int posMaxPuntaje,posMinPuntaje;
+    int posMaxPuntaje,posMinPuntaje,posMaxPuntaje2;
     DefaultTableModel tabla;
     String datos[][];
     
@@ -37,6 +37,8 @@ public class GUIAnalisis extends javax.swing.JFrame {
         initComponents();
         FlatLightLaf.setup();
         setLocationRelativeTo(null);
+        txtMejorAlgoritmo2.setVisible(false);
+        txtSpace.setVisible(false);
         
         n=_n;
         v=new int[n];
@@ -61,7 +63,7 @@ public class GUIAnalisis extends javax.swing.JFrame {
         conseguirTeoricos();
         cargarDatosTabla();
         detectarMejor();
-        new GUIGrafico(datos).setVisible(true);
+        //new GUIGrafico(datos).setVisible(true);
     }
     
     /*private double maxTiempo(){
@@ -86,6 +88,7 @@ public class GUIAnalisis extends javax.swing.JFrame {
         }
         
         //ordenar tiempo
+        int k=0;
         double tiempo[][]=new double[3][7];
         for(int i=0;i<7;i++){
             tiempo[0][i]=i;
@@ -94,16 +97,34 @@ public class GUIAnalisis extends javax.swing.JFrame {
             }
             catch(Exception e){
                 tiempo[1][i]=Double.NaN;
+                k++;
             }
             
         }
         
         double aux1,aux2;
-
+        int p;
+        
         for (int i=0;i<7-1;i++){
             for (int j=0;j<7-i-1;j++){
-                if(Double.isNaN(tiempo[1][j])) continue;
-                if (tiempo[1][j]>tiempo[1][j+1]){
+                if(Double.isNaN(tiempo[1][j])) {
+                    aux1=tiempo[0][j];
+                    aux2=tiempo[1][j];
+                    tiempo[0][j]=tiempo[0][j+1];
+                    tiempo[1][j]=tiempo[1][j+1];
+                    tiempo[0][j+1]=aux1;
+                    tiempo[1][j+1]=aux2;
+                }
+            }
+        }
+       
+        System.out.println("k="+k);
+        
+        for (int i=0;i<7-1-k;i++){
+            for (int j=0;j<7-i-1-k;j++){
+                p=j+1;
+                if(Double.isNaN(tiempo[1][p])) break;
+                if (tiempo[1][j]>tiempo[1][p]){
                     // swap arr[j+1] and arr[j]
                     aux1=tiempo[0][j];
                     aux2=tiempo[1][j];
@@ -115,13 +136,21 @@ public class GUIAnalisis extends javax.swing.JFrame {
             }
         }
         
-        int k=100;
-        for(int i=0;i<7;i++){
-            if(!Double.isNaN(tiempo[1][i])) tiempo[2][i]=k;
+        int score=100;
+        for(int i=0;i<7-k;i++){
+            if(!Double.isNaN(tiempo[1][i])) tiempo[2][i]=score;
             else tiempo[2][i]=Double.NaN;
-            
-            if(i!=6 && tiempo[1][i]!=tiempo[1][i+1] && !Double.isNaN(tiempo[1][i])) k-=14;
+            if(i!=6 && tiempo[1][i]!=tiempo[1][i+1]) score-=14;
         }
+        
+        /*System.out.println("Tiempo");
+        for(int i=0;i<7;i++){
+            for(int j=0;j<3;j++){
+                System.out.printf(tiempo[j][i]+" | ");
+            }
+            System.out.println("");
+        }
+        System.out.println("");*/
         
         for(int i=0;i<7;i++){
             for(int j=0;j<7;j++){
@@ -145,11 +174,25 @@ public class GUIAnalisis extends javax.swing.JFrame {
             }
             
         }
-
+        
         for (int i=0;i<7-1;i++){
             for (int j=0;j<7-i-1;j++){
-                if(Double.isNaN(comp[1][j])) continue;
-                if (comp[1][j]>comp[1][j+1]){
+                if(Double.isNaN(comp[1][j])) {
+                    aux1=comp[0][j];
+                    aux2=comp[1][j];
+                    comp[0][j]=comp[0][j+1];
+                    comp[1][j]=comp[1][j+1];
+                    comp[0][j+1]=aux1;
+                    comp[1][j+1]=aux2;
+                }
+            }
+        }
+
+        for (int i=0;i<7-1-k;i++){
+            for (int j=0;j<7-i-1-k;j++){
+                p=j+1;
+                if(Double.isNaN(comp[1][p])) break;
+                if (comp[1][j]>comp[1][p]){
                     // swap arr[j+1] and arr[j]
                     aux1=comp[0][j];
                     aux2=comp[1][j];
@@ -160,13 +203,22 @@ public class GUIAnalisis extends javax.swing.JFrame {
                 }
             }
         }
-        
-        k=100;
-        for(int i=0;i<7;i++){
-            comp[2][i]=k;
-            
-            if(i!=6 && comp[1][i]!=comp[1][i+1] && !Double.isNaN(comp[1][i])) k-=14;
+
+        score=100;
+        for(int i=0;i<7-k;i++){
+            if(!Double.isNaN(comp[1][i])) comp[2][i]=score;
+            else comp[2][i]=Double.NaN;
+            if(i!=6 && comp[1][i]!=comp[1][i+1]) score-=14;
         }
+        
+        /*System.out.println("Comparaciones");
+        for(int i=0;i<7;i++){
+            for(int j=0;j<3;j++){
+                System.out.printf(comp[j][i]+" | ");
+            }
+            System.out.println("");
+        }
+        System.out.println("");*/
         
         for(int i=0;i<7;i++){
             for(int j=0;j<7;j++){
@@ -191,33 +243,51 @@ public class GUIAnalisis extends javax.swing.JFrame {
         System.out.println("");
         
         //obtener mejor y peor puntaje
-        int p=0;
-        while(punt[3][p]==(int)Double.NaN){
+        p=0;
+        /*while(punt[3][p]==(int)Double.NaN){
             p++;
-        }
+        }*/
         
         double maxPuntaje=punt[3][p];
         posMaxPuntaje=p;
         double minPuntaje=punt[3][p];
         posMinPuntaje=p;
-
+        posMaxPuntaje2=-1;
         
-        for(int i=p+1;i<7;i++){
-            if(punt[3][i]==(int)Double.NaN) continue;
+        for(int i=0;i<7-k;i++){
+            //if(punt[3][i]==(int)Double.NaN) continue;
             
-            if(punt[3][i]<maxPuntaje){
+            if(punt[3][i]>maxPuntaje){
                 maxPuntaje=punt[3][i];
                 posMaxPuntaje=i;
                 continue;
             }
-            if(punt[3][i]>minPuntaje){
+            if(punt[3][i]<minPuntaje){
                 minPuntaje=punt[3][i];
                 posMinPuntaje=i;
             }
         }
+        
+        boolean cont=true;
+        for(int i=0;i<7-k;i++){
+            if(punt[3][i]==(int)Double.NaN) continue;
+            
+            if(punt[3][i]==maxPuntaje){
+                if(cont){
+                    cont=false;
+                    continue;
+                }
+                posMaxPuntaje2=i;
+            }
+        }
 
-        txtMejorAlgoritmo.setText(datos[0][posMinPuntaje]);
-        txtPeorAlgoritmo.setText(datos[0][posMaxPuntaje]);
+        txtMejorAlgoritmo.setText(datos[0][posMaxPuntaje]);
+        if(posMaxPuntaje2!=-1) {
+            txtMejorAlgoritmo2.setText(datos[0][posMaxPuntaje2]);
+            txtMejorAlgoritmo2.setVisible(true);
+            txtSpace.setVisible(true);
+        }
+        txtPeorAlgoritmo.setText(datos[0][posMinPuntaje]);
     }
     
     private void cargarDatosTabla(){
@@ -297,6 +367,8 @@ public class GUIAnalisis extends javax.swing.JFrame {
         txtMejorAlgoritmo = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtPeorAlgoritmo = new javax.swing.JLabel();
+        txtMejorAlgoritmo2 = new javax.swing.JLabel();
+        txtSpace = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Resultados - Algoritmos de ordenamiento");
@@ -373,6 +445,12 @@ public class GUIAnalisis extends javax.swing.JFrame {
         txtPeorAlgoritmo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtPeorAlgoritmo.setText("Algoritmo");
 
+        txtMejorAlgoritmo2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtMejorAlgoritmo2.setText("Algoritmo");
+
+        txtSpace.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtSpace.setText("-");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -386,15 +464,20 @@ public class GUIAnalisis extends javax.swing.JFrame {
                         .addGap(52, 52, 52)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtMejorAlgoritmo))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtPeorAlgoritmo)))))
-                .addContainerGap(43, Short.MAX_VALUE))
+                                .addComponent(txtPeorAlgoritmo))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(txtMejorAlgoritmo)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtSpace, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtMejorAlgoritmo2))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(42, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btnExportar)
@@ -411,7 +494,10 @@ public class GUIAnalisis extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtMejorAlgoritmo)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtMejorAlgoritmo)
+                        .addComponent(txtMejorAlgoritmo2)
+                        .addComponent(txtSpace))
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -453,6 +539,8 @@ public class GUIAnalisis extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
     private javax.swing.JLabel txtMejorAlgoritmo;
+    private javax.swing.JLabel txtMejorAlgoritmo2;
     private javax.swing.JLabel txtPeorAlgoritmo;
+    private javax.swing.JLabel txtSpace;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,33 +7,15 @@ package algoritmos;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
-import javax.swing.BorderFactory;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.XYSplineRenderer;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.*;
-import org.jfree.chart.LegendItem;
-import org.jfree.chart.LegendItemCollection;
-import org.jfree.chart.axis.AxisLocation;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
-import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
-import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
-import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -44,12 +26,13 @@ public class GUIGrafico extends javax.swing.JFrame {
     /**
      * Creates new form GUIGrafico
      */
+    
     String datos[][];
     
     public GUIGrafico(String _datos[][]) {
         initComponents();
         FlatLightLaf.setup();
-        //setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
         
         datos=new String[5][7];
         for(int i=0;i<5;i++){
@@ -67,8 +50,8 @@ public class GUIGrafico extends javax.swing.JFrame {
         plot.setRangeGridlinePaint(Color.gray);
         
         ChartFrame chartFrm = new ChartFrame("Rendimiento",jchart,true);
-        //chartFrm.setVisible(true);
-        chartFrm.setSize(300, 200);
+        chartFrm.setVisible(true);
+        chartFrm.setSize(600, 600);
         
         ((BarRenderer)plot.getRenderer()).setBarPainter(new StandardBarPainter());
 
@@ -93,8 +76,8 @@ public class GUIGrafico extends javax.swing.JFrame {
         plot.setRangeGridlinePaint(Color.gray);
         
         chartFrm = new ChartFrame("Rendimiento",jchart,true);
-        //chartFrm.setVisible(true);
-        chartFrm.setSize(300, 200);
+        chartFrm.setVisible(true);
+        chartFrm.setSize(600, 600);
         
         ((BarRenderer)plot.getRenderer()).setBarPainter(new StandardBarPainter());
 
@@ -106,15 +89,7 @@ public class GUIGrafico extends javax.swing.JFrame {
         panelResultadosTiempo.add(chartPanel);
         panelResultadosTiempo.updateUI();
         
-        
     }
-
-    /**
-     * Creates a sample dataset.
-     *
-     * @return  The dataset.
-     */
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -129,24 +104,25 @@ public class GUIGrafico extends javax.swing.JFrame {
         panelResultadosComp = new javax.swing.JPanel();
         btnCerrar = new javax.swing.JButton();
         panelResultadosTiempo = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Graficos");
-        setMaximumSize(new java.awt.Dimension(900, 900));
-        setMinimumSize(new java.awt.Dimension(500, 500));
-        setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(800, 800));
-        setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Grafica de resultados");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 19, -1, -1));
 
         panelResultadosComp.setBorder(btnCerrar.getBorder());
-        panelResultadosComp.setLayout(new javax.swing.BoxLayout(panelResultadosComp, javax.swing.BoxLayout.LINE_AXIS));
-        getContentPane().add(panelResultadosComp, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 63, 634, 331));
+        panelResultadosComp.setFocusable(false);
+
+        javax.swing.GroupLayout panelResultadosCompLayout = new javax.swing.GroupLayout(panelResultadosComp);
+        panelResultadosComp.setLayout(panelResultadosCompLayout);
+        panelResultadosCompLayout.setHorizontalGroup(
+            panelResultadosCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panelResultadosCompLayout.setVerticalGroup(
+            panelResultadosCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 354, Short.MAX_VALUE)
+        );
 
         btnCerrar.setText("Cerrar");
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
@@ -154,31 +130,56 @@ public class GUIGrafico extends javax.swing.JFrame {
                 btnCerrarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(583, 773, -1, -1));
 
         panelResultadosTiempo.setBorder(btnCerrar.getBorder());
-        panelResultadosTiempo.setLayout(new javax.swing.BoxLayout(panelResultadosTiempo, javax.swing.BoxLayout.LINE_AXIS));
-        getContentPane().add(panelResultadosTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 406, 634, 349));
+        panelResultadosTiempo.setFocusable(false);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 10, Short.MAX_VALUE)
+        javax.swing.GroupLayout panelResultadosTiempoLayout = new javax.swing.GroupLayout(panelResultadosTiempo);
+        panelResultadosTiempo.setLayout(panelResultadosTiempoLayout);
+        panelResultadosTiempoLayout.setHorizontalGroup(
+            panelResultadosTiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 574, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
+        panelResultadosTiempoLayout.setVerticalGroup(
+            panelResultadosTiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 340, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 790, 10, 20));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnCerrar)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel1)
+                        .addComponent(panelResultadosTiempo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(panelResultadosComp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(panelResultadosComp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(panelResultadosTiempo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnCerrar)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         // TODO add your handling code here:
-        dispose();
+        //dispose();
+        panelResultadosTiempo.updateUI();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     /**
@@ -188,7 +189,6 @@ public class GUIGrafico extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panelResultadosComp;
     private javax.swing.JPanel panelResultadosTiempo;
     // End of variables declaration//GEN-END:variables
