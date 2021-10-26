@@ -39,6 +39,10 @@ public class GUIGrafico extends javax.swing.JFrame {
             System.arraycopy(_datos[i], 0, datos[i], 0, 7);
         }
         
+        create();
+    }
+    
+    private void create(){
         DefaultCategoryDataset dod = new DefaultCategoryDataset();
         for(int i=0;i<7;i++){
             if(datos[1][i]!=null) dod.setValue(Double.parseDouble(datos[2][i]),"Comparaciones",datos[0][i]);   
@@ -51,7 +55,7 @@ public class GUIGrafico extends javax.swing.JFrame {
         
         ChartFrame chartFrm = new ChartFrame("Rendimiento",jchart,true);
         chartFrm.setVisible(true);
-        chartFrm.setSize(600, 600);
+        chartFrm.setSize(800, 475);
         
         ((BarRenderer)plot.getRenderer()).setBarPainter(new StandardBarPainter());
 
@@ -77,7 +81,7 @@ public class GUIGrafico extends javax.swing.JFrame {
         
         chartFrm = new ChartFrame("Rendimiento",jchart,true);
         chartFrm.setVisible(true);
-        chartFrm.setSize(600, 600);
+        chartFrm.setSize(800, 475);
         
         ((BarRenderer)plot.getRenderer()).setBarPainter(new StandardBarPainter());
 
@@ -88,7 +92,6 @@ public class GUIGrafico extends javax.swing.JFrame {
         panelResultadosTiempo.removeAll();
         panelResultadosTiempo.add(chartPanel);
         panelResultadosTiempo.updateUI();
-        
     }
 
     /**
@@ -121,7 +124,7 @@ public class GUIGrafico extends javax.swing.JFrame {
         );
         panelResultadosCompLayout.setVerticalGroup(
             panelResultadosCompLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 354, Short.MAX_VALUE)
+            .addGap(0, 352, Short.MAX_VALUE)
         );
 
         btnCerrar.setText("Cerrar");
@@ -170,7 +173,7 @@ public class GUIGrafico extends javax.swing.JFrame {
                 .addComponent(panelResultadosTiempo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCerrar)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -178,8 +181,7 @@ public class GUIGrafico extends javax.swing.JFrame {
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
         // TODO add your handling code here:
-        //dispose();
-        panelResultadosTiempo.updateUI();
+        dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     /**

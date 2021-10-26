@@ -29,7 +29,7 @@ public class GUIAnalisis extends javax.swing.JFrame {
      */
     int v[];
     int n;
-    int posMaxPuntaje,posMinPuntaje,posMaxPuntaje2;
+    int posMaxPuntaje,posMinPuntaje,posMaxPuntaje2,posMinPuntaje2;
     DefaultTableModel tabla;
     String datos[][];
     
@@ -38,7 +38,9 @@ public class GUIAnalisis extends javax.swing.JFrame {
         FlatLightLaf.setup();
         setLocationRelativeTo(null);
         txtMejorAlgoritmo2.setVisible(false);
-        txtSpace.setVisible(false);
+        txtSpaceMejor.setVisible(false);
+        txtPeorAlgoritmo2.setVisible(false);
+        txtSpacePeor.setVisible(false);
         
         n=_n;
         v=new int[n];
@@ -63,23 +65,8 @@ public class GUIAnalisis extends javax.swing.JFrame {
         conseguirTeoricos();
         cargarDatosTabla();
         detectarMejor();
-        //new GUIGrafico(datos).setVisible(true);
+        new GUIGrafico(datos).setVisible(true);
     }
-    
-    /*private double maxTiempo(){
-        int p=0;
-        while(datos[1][0]!=null){
-            p++;
-        }
-        double max=Double.parseDouble(datos[1][0]);
-        for(int i=1;i<7;i++){
-            if(Double.parseDouble(datos[1][i])>max){
-                max=Double.parseDouble(datos[1][i]);
-            }
-        }
-        
-        return max;
-    }*/
     
     private void detectarMejor(){
         int punt[][]=new int[4][7];
@@ -243,19 +230,16 @@ public class GUIAnalisis extends javax.swing.JFrame {
         System.out.println("");
         
         //obtener mejor y peor puntaje
-        p=0;
-        /*while(punt[3][p]==(int)Double.NaN){
-            p++;
-        }*/
-        
-        double maxPuntaje=punt[3][p];
-        posMaxPuntaje=p;
-        double minPuntaje=punt[3][p];
-        posMinPuntaje=p;
+        double maxPuntaje=punt[3][0];
+        posMaxPuntaje=0;
         posMaxPuntaje2=-1;
+        double minPuntaje=punt[3][0];
+        posMinPuntaje=0;
+        posMinPuntaje2=-1;
         
-        for(int i=0;i<7-k;i++){
-            //if(punt[3][i]==(int)Double.NaN) continue;
+        
+        for(int i=0;i<7;i++){
+            if(punt[3][i]==(int)Double.NaN) continue;
             
             if(punt[3][i]>maxPuntaje){
                 maxPuntaje=punt[3][i];
@@ -268,26 +252,40 @@ public class GUIAnalisis extends javax.swing.JFrame {
             }
         }
         
-        boolean cont=true;
-        for(int i=0;i<7-k;i++){
+        boolean contMax=true,contMin=true;
+        for(int i=0;i<7;i++){
             if(punt[3][i]==(int)Double.NaN) continue;
             
             if(punt[3][i]==maxPuntaje){
-                if(cont){
-                    cont=false;
+                if(contMax){
+                    contMax=false;
                     continue;
                 }
                 posMaxPuntaje2=i;
             }
+            
+            if(punt[3][i]==minPuntaje){
+                if(contMin){
+                    contMin=false;
+                    continue;
+                }
+                posMinPuntaje2=i;
+            }
         }
 
         txtMejorAlgoritmo.setText(datos[0][posMaxPuntaje]);
+        txtPeorAlgoritmo.setText(datos[0][posMinPuntaje]);
         if(posMaxPuntaje2!=-1) {
             txtMejorAlgoritmo2.setText(datos[0][posMaxPuntaje2]);
             txtMejorAlgoritmo2.setVisible(true);
-            txtSpace.setVisible(true);
+            txtSpaceMejor.setVisible(true);
         }
-        txtPeorAlgoritmo.setText(datos[0][posMinPuntaje]);
+        if(posMinPuntaje2!=-1) {
+            txtPeorAlgoritmo2.setText(datos[0][posMinPuntaje2]);
+            txtPeorAlgoritmo2.setVisible(true);
+            txtSpacePeor.setVisible(true);
+        }
+        
     }
     
     private void cargarDatosTabla(){
@@ -368,7 +366,9 @@ public class GUIAnalisis extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtPeorAlgoritmo = new javax.swing.JLabel();
         txtMejorAlgoritmo2 = new javax.swing.JLabel();
-        txtSpace = new javax.swing.JLabel();
+        txtSpaceMejor = new javax.swing.JLabel();
+        txtSpacePeor = new javax.swing.JLabel();
+        txtPeorAlgoritmo2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Resultados - Algoritmos de ordenamiento");
@@ -448,8 +448,14 @@ public class GUIAnalisis extends javax.swing.JFrame {
         txtMejorAlgoritmo2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtMejorAlgoritmo2.setText("Algoritmo");
 
-        txtSpace.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtSpace.setText("-");
+        txtSpaceMejor.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtSpaceMejor.setText("-");
+
+        txtSpacePeor.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtSpacePeor.setText("-");
+
+        txtPeorAlgoritmo2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtPeorAlgoritmo2.setText("Algoritmo");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -466,14 +472,18 @@ public class GUIAnalisis extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtPeorAlgoritmo))
+                                .addComponent(txtPeorAlgoritmo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSpacePeor)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPeorAlgoritmo2))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jLabel2)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(txtMejorAlgoritmo)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtSpace, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtSpaceMejor, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtMejorAlgoritmo2))
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -497,12 +507,15 @@ public class GUIAnalisis extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtMejorAlgoritmo)
                         .addComponent(txtMejorAlgoritmo2)
-                        .addComponent(txtSpace))
+                        .addComponent(txtSpaceMejor))
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(txtPeorAlgoritmo))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtPeorAlgoritmo)
+                        .addComponent(txtSpacePeor)
+                        .addComponent(txtPeorAlgoritmo2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExportar)
@@ -541,6 +554,8 @@ public class GUIAnalisis extends javax.swing.JFrame {
     private javax.swing.JLabel txtMejorAlgoritmo;
     private javax.swing.JLabel txtMejorAlgoritmo2;
     private javax.swing.JLabel txtPeorAlgoritmo;
-    private javax.swing.JLabel txtSpace;
+    private javax.swing.JLabel txtPeorAlgoritmo2;
+    private javax.swing.JLabel txtSpaceMejor;
+    private javax.swing.JLabel txtSpacePeor;
     // End of variables declaration//GEN-END:variables
 }
