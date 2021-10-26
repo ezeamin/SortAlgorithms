@@ -104,9 +104,7 @@ public class GUIAnalisis extends javax.swing.JFrame {
                 }
             }
         }
-       
-        System.out.println("k="+k);
-        
+
         for (int i=0;i<7-1-k;i++){
             for (int j=0;j<7-i-1-k;j++){
                 p=j+1;
@@ -337,8 +335,10 @@ public class GUIAnalisis extends javax.swing.JFrame {
             
             bw.newLine();
             bw.write("Mejor: "+datos[0][posMaxPuntaje]);
+            if(posMaxPuntaje2!=-1) bw.write(" - "+datos[0][posMaxPuntaje2]);
             bw.newLine();
             bw.write("Peor: "+datos[0][posMinPuntaje]);
+            if(posMinPuntaje2!=-1) bw.write(" - "+datos[0][posMinPuntaje2]);
             bw.flush();
             JOptionPane.showMessageDialog(null,"Guardado exitosamente");
         }
